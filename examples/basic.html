@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Basic example - exif-orientation-fixer</title>
+  <style>
+    img {
+      max-width: 250px;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="https://unpkg.com/exif-js@2.3.0/exif.js"></script>
+  <script type="module">
+    import { fixImageOrientation } from '../exif-orientation-fixer.js';
+
+    const imagePaths = [];
+    for (let i = 1; i <= 8; i++) {
+      imagePaths.push(
+        `https://raw.githubusercontent.com/recurser/exif-orientation-examples/master/Landscape_${i}.jpg`
+      );
+      imagePaths.push(
+        `https://raw.githubusercontent.com/recurser/exif-orientation-examples/master/Portrait_${i}.jpg`
+      );
+    }
+
+    (async () => {
+      for (const imagePath of imagePaths) {
+        const blob = await fixImageOrientation(imagePath);
+        const url = URL.createObjectURL(blob);
+        const img = document.createElement("img");
+        img.src = url;
+        document.body.appendChild(img);
+      }
+    })();
+  </script>
+</body>
+
+</html>

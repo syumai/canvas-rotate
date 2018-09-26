@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>File picker example - exif-orientation-fixer</title>
+  <style>
+    img {
+      border: 1px black solid;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>File picker example</h2>
+
+  <div>
+    <form action="#">
+      <input id="fileInput" type="file" accept="image/*">
+    </form>
+  </div>
+
+  <table>
+    <tr>
+      <th>Original</th>
+      <th>Fixed</th>
+    </tr>
+    <tr>
+      <td><img id="original"></td>
+      <td><img id="fixed"></td>
+    </tr>
+  </table>
+
+  <script src="https://unpkg.com/exif-js@2.3.0/exif.js"></script>
+  <script type="module">
+    import { fixImageOrientation } from '../exif-orientation-fixer.js';
+
+    const fileInput = document.getElementById("fileInput");
+    const originalImg = document.getElementById("original");
+    const fixedImg = document.getElementById("fixed");
+
+    fileInput.addEventListener('change', async ({ target: { files: { 0: img } } }) => {
+      originalImg.src = URL.createObjectURL(img)
+      const blob = await fixImageOrientation(img);
+      fixedImg.src = URL.createObjectURL(blob);
+    });
+  </script>
+</body>
+
+</html>
